@@ -1,7 +1,6 @@
 import './App.css';
 import Layout from './components/Layout/mainLayout';
 import ProductCarousel from './components/Carousel/ProductCarousel';
-import WrappedMap from './components/Maps/MapWithMarker'; // Correct import path
 import 'react-tabs/style/react-tabs.css';
 import HeroImage from './components/resource/img/home/hero.png';
 import HeroImageMid from './components/resource/img/home/hero-mid.png';
