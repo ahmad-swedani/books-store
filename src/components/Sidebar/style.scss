@@ -1,0 +1,27 @@
+.sideBar {
+	width: 100%;
+	padding: 20px 0 21px;
+	opacity: 0.7;
+	background-color: #F6F7C1;
+}
+
+.list-group-item {
+	background-color: transparent;
+	color: #fff;
+}
+
+.barIcon {
+	cursor: pointer;
+}
+
+.links {
+	text-decoration: none;
+	// remove underline from links
+	// text-align: center;
+	font-size: large;
+}
+
+.linkDiv:hover {
+	background-color: #fff;
+	color: #000;
+}
