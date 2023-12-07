@@ -1,0 +1,69 @@
+.tableHeader {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.tableBody {
+  display: flex;
+  justify-content: space-evenly;
+  border-top: 1px solid #eee;
+}
+
+.columnOne {
+  border: 1px solid #eee;
+}
+
+.counterDiv {
+  margin-top: 30px;
+}
+.bookImage {
+  max-width: 120px;
+  max-height: 120px;
+}
+
+.priceDiv {
+  margin-top: 30px;
+}
+.imgDiv {
+  margin-top: 30px;
+}
+
+.deleteIcon {
+    margin-top: 30px;
+    cursor: pointer;
+}
+.formDiv {
+    box-shadow: 0 0 2px 0 rgba(0,0,0,.01), 0 0 4px 0 rgba(0,0,0,.1), inset 0 0 0 1px hsla(0,0%,100%,.1);
+    margin-top: 40px;
+    text-align: right;
+    padding: 15px;
+}
+.orderDetails {
+    background: #f2f4f8;
+    border-radius: 11px;
+    padding: 1em;
+    width: 100%;
+    margin-top: 40px;
+    text-align: right;
+}
+.info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.discount {
+    display: flex;
+    gap: 1rem;
+}
+.way {
+    margin-top: 40px;
+}
+.buttonDiv {
+    text-align: center;
+}
+.sendingButton {
+    width: 50%;
+}
+.mainContainer {
+    margin-top: 15px;
+}

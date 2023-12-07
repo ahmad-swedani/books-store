@@ -1,5 +1,6 @@
 .header {
 	width: inherit;
+	padding-bottom: 1rem;
 }
 
 .inputField {
@@ -48,14 +49,39 @@
 	outline: none;
 }
 
-// .header-container {
-// 	height: 50px;
-// 	min-height: 50px;
-//   }
-
 .imageDiv {
-	margin-left: 26px;
+	text-align: -webkit-center;
+	
 }
 .header {
 	border-bottom: 0.1mm ridge rgba(113, 113, 103, 0.6);
+}
+
+.anchor {
+	width: 90px;
+}
+
+.iconsDiv {
+	display: flex;
+	float: left;
+    margin-left: 2rem;
+    margin-top: 1rem;
+}
+
+.row {
+	max-width: 100%;
+}
+.listButton {
+	float: right;
+    margin-top: 1rem;
+}
+.ListGroup {
+	align-items: self-end;
+}
+.links {
+	text-decoration: none;
+}
+
+.iconTag {
+	align-self: center;
 }

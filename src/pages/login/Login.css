@@ -1,0 +1,12 @@
+.loginForm {
+    text-align: right;
+    width: 60%;
+    margin-bottom: 2rem;
+}
+.loginCol {
+    text-align: -webkit-center;
+    margin-top: 3rem;
+}
+.registerLink {
+    text-decoration: none;
+}
