@@ -1,8 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Cairo&display=swap");
 
+/* html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+} */
+
 .App {
   text-align: center;
   font-family: "Cairo", sans-serif;
+  position: relative;
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -88,6 +97,7 @@
   z-index: 1;
   width: 20vw;
   height: 20vw;
+  max-width: 100%;
 }
 
 .section-img:hover {
@@ -193,4 +203,10 @@
 }
 .sliderRow {
   justify-content: center;
+}
+.tableColumn {
+  margin-top: 2rem;
+}
+.cardsOrders {
+  text-align: -webkit-center;
 }

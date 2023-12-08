@@ -3,7 +3,7 @@ import "../../App.css";
 import "react-tabs/style/react-tabs.css";
 import React from "react";
 import Layout from "../../components/Layout/mainLayout";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import cookie from "react-cookies";
@@ -23,6 +23,7 @@ function Orders() {
       let decodedToken = jwtDecode(cookie.load("token"));
 
       getOrdersByUserId(decodedToken.id).then((res) => {
+        console.log("DATA :", res);
         setOrders(res?.data?.orders);
       });
     } else {
@@ -31,9 +32,9 @@ function Orders() {
   }, []);
   return (
     <Layout>
-      <Container>
+      <Container className="d-none d-lg-block">
         <Row>
-          <Col xs={12}>
+          <Col xs={12} className="tableColumn">
             <table className="table table-striped border">
               <thead>
                 <tr>
@@ -69,13 +70,41 @@ function Orders() {
               </tbody>
             </table>
           </Col>
-          <DetailsModal
-            show={modalShow}
-            onHide={() => setModalShow(false)}
-            data={selectedOrder}
-          />
         </Row>
       </Container>
+      <Container className="d-block d-lg-none mt-3">
+        <Row>
+          {ordersValue.map((item, idx) => (
+            <Col xs={12} className="cardsOrders mb-2">
+              <Card
+                bg="info"
+                key={idx}
+                text="text"
+                style={{ width: "18rem", color: "white", cursor: "pointer" }}
+                className="mb-2"
+                onClick={() => {
+                  setModalShow(true);
+                  setSelectedOrder(item);
+                }}
+              >
+                <Card.Header>رقم الطلب : {item.orderNumber}</Card.Header>
+                <Card.Body>
+                  <Card.Title> حالة الطلب : {item.state} </Card.Title>
+                  <Card.Text>
+                    <p>اسم المستلم : {item?.deliveryData?.recipentName}</p>
+                    <p>السعر : {item.total} د.أ</p>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
+      <DetailsModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        data={selectedOrder}
+      />
     </Layout>
   );
 }

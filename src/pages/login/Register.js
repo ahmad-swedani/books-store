@@ -50,7 +50,7 @@ function Register() {
         <Row>
           <Col xs={12} className="loginCol">
             <h3>تسجيل حساب جديد</h3>
-            <Form className="registerForm" onSubmit={(e) => e.preventDefault()}>
+            <Form className="loginForm" onSubmit={(e) => e.preventDefault()}>
               <Form.Group className="mb-3" controlId="name">
                 <Form.Label>الإسم</Form.Label>
                 <Form.Control

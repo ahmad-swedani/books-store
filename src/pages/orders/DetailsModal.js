@@ -9,7 +9,7 @@ function DetailsModal(props) {
     <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter">
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
+          معلومات الطلب
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

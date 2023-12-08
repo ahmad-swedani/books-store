@@ -2,6 +2,7 @@ import React from "react";
 import AppLogo from "./../resource/img/logor.jpg";
 import { NavLink } from "react-bootstrap";
 import PrivacyModal from "./Modal";
+import "./style.css"
 
 function Footer(props) {
   const [modalShow, setModalShow] = React.useState(false);
@@ -9,13 +10,13 @@ function Footer(props) {
   const [title, setTitle] = React.useState("");
 
   return (
-    <footer className="img-text-footer" style={{ borderTop: "ridge" }}>
+    <footer className="img-text-footer mainFooter" style={{ borderTop: "ridge" }}>
       <div className="imageDiv">
         <NavLink className=" mb-auto d-none d-lg-block" to="/">
           <img src={AppLogo} className="" alt="" width="90" />
         </NavLink>
       </div>
-      <p className="mt-3">
+      <p className="mt-2">
         <span
           style={{ cursor: "pointer" }}
           onClick={() => {
