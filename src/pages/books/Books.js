@@ -108,7 +108,7 @@ function Books() {
               {showingData.map((item, index) => (
                 <Col xs={6} md={6} lg={6} xl={3} key={index}>
                   <div
-                    className="category-item border mt-3"
+                    className="category-item border mt-1"
                     onClick={() => navigate("/product", { state: item })}
                   >
                     <div
@@ -116,7 +116,7 @@ function Books() {
                       style={{
                         display:
                           item?.discount === 0 ||
-                          item?.oldPrice < item?.mainPrice
+                            item?.oldPrice < item?.mainPrice
                             ? "none"
                             : "block",
                       }}
@@ -126,7 +126,8 @@ function Books() {
                     <img
                       src={item?.photo || ProductStart1}
                       alt={item?.name?.en}
-                      className="section-img"
+                      // className="section-img"
+                      style={{ width: "90%", height: "250px" }}
                     />
                     <p className="text-center">{item?.name?.ar}</p>
                     <div className="priceDivBooks">
@@ -136,7 +137,7 @@ function Books() {
                           color: "red",
                           display:
                             item?.oldPrice === item?.mainPrice ||
-                            item?.oldPrice < item?.mainPrice
+                              item?.oldPrice < item?.mainPrice
                               ? "none"
                               : "block",
                         }}
