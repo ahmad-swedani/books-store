@@ -72,6 +72,13 @@ function BookDetails() {
               <h2>{location.state.name?.ar}</h2>
               <p>{location.state.mainPrice} د.أ</p>
             </div>
+            <div>
+              <h2>الكاتب</h2>
+              <h3>{location.state?.author?.name?.ar}</h3>
+            </div>
+            <div>
+              <p>{location.state.description}</p>
+            </div>
             <div className="counterDiv">
               <p>العدد</p>
               <Counter setQuantity={setQuantity} current={null} />
