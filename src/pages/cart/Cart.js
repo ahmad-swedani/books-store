@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import { addOrder } from "../../api/api";
+import { addOrder, validatePromo } from "../../api/api";
 import { jwtDecode } from "jwt-decode";
 import cookie from "react-cookies";
 import Swal from "sweetalert2";
@@ -34,7 +34,7 @@ function Cart() {
   const navigate = useNavigate();
   const [isEmpty, setIsEmpty] = useState(false);
   const [data, setData] = useState([]);
-  const [setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1);
   const [isReload, setIsReload] = useState(false);
   const [total, setTotal] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(0);
@@ -43,6 +43,11 @@ function Cart() {
   const [city, setCity] = useState("عمّان");
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
+  const [isPromo, setIsPromo] = useState(true);
+  const [promo, setPromo] = useState("");
+  const [promoPercentage, setPromoPercentage] = useState(0);
+  const [allTotal, setAllTotal] = useState();
+  const [promoJson, setPromoJson] = useState();
 
   const handleDelete = (id) => {
     let productsArray = JSON.parse(localStorage.getItem("products"));
@@ -60,52 +65,94 @@ function Cart() {
         icon: "question",
       });
     } else {
-      let items = [];
-      data.forEach((item) => {
-        items.push({ id: item.data.id, quantity: item.counter });
-      });
-      const body = {
-        items: items,
-        addedBy: cookie.load("token")
-          ? jwtDecode(cookie.load("token")).id
-          : null,
-        deliveryData: {
-          recipentName: name,
-          addriss: address,
-          country: "jordan", // always
-          city: city,
-          phoneNumber: phone, // it should be valid number
-          notes: notes,
-        },
-      };
-      Swal.fire({
-        title: "تأكيد?",
-        text: "هل أنت متأكد من ارسال هذا الطلب؟",
-        icon: "question",
-        showCancelButton: true,
-        cancelButtonText: "لا",
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "متأكد",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          addOrder(body).then((result) => {
-            Swal.fire({
-              icon: "success",
-              title: "تم ارسال الطلب, سنتواصل معك بأقرب وقت",
-              showConfirmButton: false,
-              timer: 3000,
+      if (phone.length !== 10) {
+        Swal.fire({
+          title: "رقم الهاتف",
+          text: "رقم الهاتف يجب أن يكون من 10 خانات",
+          icon: "question",
+        });
+      } else {
+        let items = [];
+        data.forEach((item) => {
+          items.push({ id: item.data.id, quantity: item.counter });
+        });
+        const body = {
+          items: items,
+          addedBy: cookie.load("token")
+            ? jwtDecode(cookie.load("token")).id
+            : null,
+          deliveryData: {
+            recipentName: name,
+            addriss: address,
+            country: "jordan", // always
+            city: city,
+            phoneNumber: phone, // it should be valid number
+            notes: notes,
+            promo: promoJson,
+          },
+        };
+        Swal.fire({
+          title: "تأكيد?",
+          text: "هل أنت متأكد من ارسال هذا الطلب؟",
+          icon: "question",
+          showCancelButton: true,
+          cancelButtonText: "لا",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "متأكد",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            addOrder(body).then((result) => {
+              Swal.fire({
+                icon: "success",
+                title: "تم ارسال الطلب, سنتواصل معك بأقرب وقت",
+                showConfirmButton: false,
+                timer: 3000,
+              });
+              localStorage.removeItem("products");
+              if (cookie.load("token")) {
+                navigate("/orders");
+              } else {
+                navigate("/");
+              }
             });
-            localStorage.removeItem("products");
-            if (cookie.load("token")) {
-              navigate("/orders");
-            } else {
-              navigate("/");
-            }
-          });
-        }
-      });
+          }
+        });
+      }
     }
+  };
+
+  const handleValidatePromo = () => {
+    validatePromo(promo)
+      .then((data) => {
+        if (data.data.promo.active) {
+          Swal.fire({
+            title: "الخصم",
+            text: "تم إضافة الخصم",
+            icon: "success",
+          });
+          setIsPromo(true);
+          setPromoPercentage(data.data.promo.criteria.value / 100);
+          setPromoJson(data.data.promo);
+        } else {
+          Swal.fire({
+            title: "الخصم",
+            text: "الخصم غير متاح",
+            icon: "question",
+          });
+          setPromoPercentage(0);
+          setIsPromo(false);
+        }
+      })
+      .catch(() => {
+        Swal.fire({
+          title: "الخصم",
+          text: "الخصم غير متاح",
+          icon: "question",
+        });
+        setPromoPercentage(0);
+        setIsPromo(false);
+      });
   };
 
   useEffect(() => {
@@ -127,7 +174,8 @@ function Cart() {
     } else {
       setIsEmpty(true);
     }
-  }, [isReload, total]);
+    setAllTotal(total + deliveryFee - total * promoPercentage);
+  }, [deliveryFee, isReload, promoPercentage, total]);
 
   return (
     <Layout>
@@ -170,10 +218,7 @@ function Cart() {
                       className="deleteIcon"
                       style={{ height: "fit-content" }}
                     >
-                      <DeleteIcon
-                        width={18}
-                        height={18}
-                      />
+                      <DeleteIcon width={18} height={18} />
                     </div>
                   </div>
                 ))}
@@ -242,9 +287,35 @@ function Cart() {
                   <p>التوصيل</p>
                   <p>{deliveryFee} د.أ</p>
                 </div>
+                {promoPercentage > 0 && (
+                  <div className="info">
+                    <p>الخصم</p>
+                    <p>{Math.round(total * promoPercentage * 10) / 10} د.أ</p>
+                  </div>
+                )}
                 <div className="info">
                   <p>المجموع الكلي</p>
-                  <p>{total + deliveryFee} د.أ</p>
+                  <p>{allTotal} د.أ</p>
+                </div>
+                <div className="info">
+                  <Form.Control
+                    className="promo"
+                    type="text"
+                    onChange={(e) => setPromo(e.target.value)}
+                    placeholder="الكوبون"
+                    style={{
+                      borderWidth: "thick",
+                      borderColor: isPromo ? "green" : "red",
+                    }}
+                  />
+                  <Button
+                    variant="info"
+                    className="promoButton"
+                    style={{ color: "white" }}
+                    onClick={() => handleValidatePromo()}
+                  >
+                    فحص
+                  </Button>
                 </div>
                 <div className="way">
                   <p>طريقة الدفع</p>

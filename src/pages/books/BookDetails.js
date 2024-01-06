@@ -7,9 +7,10 @@ import { useLocation } from "react-router-dom";
 import Counter from "../../components/Counter/Counter";
 import ProductStart1 from "../../components/resource/img/home/carousel1-product1.jpg";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 function BookDetails() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const [quantity, setQuantity] = useState(1);
   const [notes, setNotes] = useState("");
@@ -94,6 +95,16 @@ function BookDetails() {
             <div className="buttonsDiv">
               <Button variant="outline-info" onClick={() => handleAddToCart()}>
                 أضف لحقيبة التسوق
+              </Button>
+              <Button
+                variant="outline-success"
+                onClick={() =>
+                  navigate("/books", {
+                    state: ["author", location.state.author],
+                  })
+                }
+              >
+                المزيد من كتب {location.state.author.name.ar}
               </Button>
             </div>
           </Col>

@@ -8,6 +8,11 @@ export const getAllProducts = async () => {
   return res.data;
 };
 
+export const getAllProductsByAuthor = async (id) => {
+  const res = await axios.get(`${baseUrl}/products?author=${id}`);
+  return res.data;
+};
+
 export const getMostSellingProducts = async () => {
   const res = await axios.get(`${baseUrl}/products?isMostSelling=true`);
   return res.data;
@@ -37,6 +42,11 @@ export const getOrdersByUserId = async (id) => {
   const res = await axios.get(`${baseUrl}/orders/my-orders/${id}`, {
     headers: { Authorization: `Bearer ${cookie.load("token")}` },
   });
+  return res.data;
+};
+
+export const validatePromo = async (promo) => {
+  const res = await axios.get(`${baseUrl}/promo/validate/${promo}`);
   return res.data;
 };
 //   export const getAllTodos = async () => {

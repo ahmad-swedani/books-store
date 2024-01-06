@@ -93,11 +93,11 @@ function Home() {
               dir="ltr"
               breakpoints={{
                 0: {
-                  slidesPerView: 2,
+                  slidesPerView: 1,
                   spaceBetween: 20,
                 },
                 640: {
-                  slidesPerView: 2,
+                  slidesPerView: 1,
                   spaceBetween: 20,
                 },
                 768: {
@@ -118,7 +118,14 @@ function Home() {
                       navigate("/books", { state: ["category", item._id] })
                     }
                   >
-                    <img src={Category2} alt={index} className="section-img" />
+                    <div>
+                      <img
+                        src={Category2}
+                        alt={index}
+                        className="section-img"
+                      />
+                    </div>
+
                     <p className="text-center">{item._id}</p>
                   </div>
                 </SwiperSlide>

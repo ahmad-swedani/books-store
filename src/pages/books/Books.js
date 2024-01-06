@@ -10,6 +10,7 @@ import ProductStart1 from "../../components/resource/img/home/carousel1-product1
 import { useEffect } from "react";
 import {
   getAllProducts,
+  getAllProductsByAuthor,
   getByCategory,
   getMostSellingProducts,
   getNewProducts,
@@ -56,7 +57,15 @@ function Books() {
             setShowingData(toArray(data.data.productsObject));
             setLoader(false);
           });
-        } else if (location.state[0] === "search") {
+        }
+        else if (location.state[0] === "author") {
+          getAllProductsByAuthor(location.state[1]._id).then((data) => {
+            setTitle(location.state[1].name.ar);
+            setShowingData(toArray(data.data.productsObject));
+            setLoader(false);
+          });
+        }
+         else if (location.state[0] === "search") {
           getNewProducts().then((data) => {
             setTitle(`نتائج البحث عن :${location.state[1]}`);
             let searchArray = [];

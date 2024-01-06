@@ -92,12 +92,11 @@ body {
 
 .section-img {
   border-radius: 35%;
-  padding: 1rem;
-  transition: all 0.1s;
-  z-index: 1;
-  width: 20vw;
-  height: 20vw;
-  max-width: 100%;
+  /* padding: 1rem; */
+  /* transition: all 0.1s; */
+  /* z-index: 1; */
+  max-width: 80%;
+  max-height: 15rem;
 }
 
 .section-img:hover {
